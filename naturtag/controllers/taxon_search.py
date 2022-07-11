@@ -9,7 +9,7 @@ from PySide6.QtWidgets import QApplication, QComboBox, QLabel, QPushButton, QWid
 
 from naturtag.app.style import fa_icon
 from naturtag.client import INAT_CLIENT
-from naturtag.constants import COMMON_RANKS, RANKS, SELECTABLE_ICONIC_TAXA
+from naturtag.constants import ASSETS_DIR, COMMON_RANKS, RANKS, SELECTABLE_ICONIC_TAXA
 from naturtag.settings import Settings
 from naturtag.widgets import (
     GridLayout,
@@ -42,7 +42,7 @@ class TaxonSearch(VerticalLayout):
 
         # Category inputs
         self.iconic_taxon_filters = IconicTaxonFilters()
-        categories = self.add_group('Categories', self, width=400)
+        categories = self.add_group('Categories', self, width=550)
         categories.addWidget(self.iconic_taxon_filters)
 
         # Rank inputs
@@ -138,7 +138,7 @@ class IconicTaxonFilters(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.button_layout = GridLayout(self, n_columns=6)
+        self.button_layout = GridLayout(self, n_columns=4)
         self.setFocusPolicy(Qt.StrongFocus)
 
         for id, name in SELECTABLE_ICONIC_TAXA.items():
@@ -175,13 +175,15 @@ class IconicTaxonButton(QPushButton):
         self.taxon_id = taxon_id
         self.name = name
 
-        photo = IconPhoto.from_iconic_taxon(name)
-        img = PixmapLabel(url=photo.thumbnail_url)
+        path = ASSETS_DIR / 'iconic_taxa' / f'{name}.png'
+        img = PixmapLabel(path=path, resample=False)
+        # photo = IconPhoto.from_iconic_taxon(name)
+        # img = PixmapLabel(url=photo.thumbnail_url)
         self.setIcon(QIcon(img.pixmap()))
-        self.setIconSize(QSize(45, 45))
+        self.setIconSize(QSize(128, 128))
 
         self.setCheckable(True)
-        self.setFixedSize(50, 50)
+        self.setFixedSize(128, 128)
         self.setContentsMargins(0, 0, 0, 0)
         self.setToolTip(name)
 
