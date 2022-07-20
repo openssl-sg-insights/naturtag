@@ -2,7 +2,7 @@
 from logging import getLogger
 from typing import Optional
 
-from pyinaturalist import IconPhoto, Taxon
+from pyinaturalist import Taxon
 from PySide6.QtCore import QSize, Qt, Signal, Slot
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QComboBox, QLabel, QPushButton, QWidget
@@ -42,7 +42,7 @@ class TaxonSearch(VerticalLayout):
 
         # Category inputs
         self.iconic_taxon_filters = IconicTaxonFilters()
-        categories = self.add_group('Categories', self, width=550)
+        categories = self.add_group('Categories', self, width=400)
         categories.addWidget(self.iconic_taxon_filters)
 
         # Rank inputs
@@ -180,12 +180,14 @@ class IconicTaxonButton(QPushButton):
         # photo = IconPhoto.from_iconic_taxon(name)
         # img = PixmapLabel(url=photo.thumbnail_url)
         self.setIcon(QIcon(img.pixmap()))
-        self.setIconSize(QSize(128, 128))
+        self.setIconSize(QSize(64, 64))
 
         self.setCheckable(True)
-        self.setFixedSize(128, 128)
+        self.setFixedSize(64, 64)
         self.setContentsMargins(0, 0, 0, 0)
-        self.setToolTip(name)
+        self.setStatusTip(name)
+        # TODO: tooltip seems to make button unclickable
+        # self.setToolTip(name)
 
 
 class RankList(HorizontalLayout):
